@@ -45,6 +45,8 @@ class Player:
             if self.maze[self.posy + dir[1], self.posx + dir[0]] == 1 or self.posx+dir[0] < 0 or self.posy+dir[1] < 0:
                 window.label.config(text="Cant go there")
             else:
+                window.label.config(text="...")
+
                 if self.maze[self.posy + dir[1], self.posx + dir[0]] == 3:
                     window.label.config(text="You won!")
                     global status
@@ -68,7 +70,7 @@ class Window:
         self.canvas = tk.Canvas(root, width=width, height=height, bg="white", relief="solid", border=5)
         self.canvas.pack(side="left")
 
-        self.label = tk.Label(root, text="...", font=("", 16))
+        self.label = tk.Label(root, text="...", font=("Helvetica", 16))
         self.label.pack(side="top")
 
         self.frame = tk.Frame(root)
@@ -87,6 +89,7 @@ class Window:
         self.button.grid(row=2,column=3)
 
         self.player_rec = None
+        self.player_lab = None
 
         self.maze_creation()
         self.player_draw()
@@ -104,15 +107,20 @@ class Window:
         x1, y1 = posy * 100 + 10, posx * 100 + 10
         x2, y2 = x1 + 80, y1 + 80
         self.canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="lightgreen")
+        self.canvas.create_window(x1+40, y2-40, window=tk.Label(self.canvas, text="Finish", bg="green", fg="white",
+                                                                  font=("Helvetica",10)))
 
     def player_draw(self):
         if self.player_rec is not None:
             self.canvas.delete(self.player_rec)
+            self.canvas.delete(self.player_lab)
         posx = player.posy
         posy = player.posx
         x1, y1 = posy * 100+10, posx * 100+10
         x2, y2 = x1 + 80, y1 + 80
         self.player_rec = self.canvas.create_oval(x1, y1, x2, y2, fill="red", outline="darkred")
+        self.player_lab = self.canvas.create_window(x1+40, y2-40, window=tk.Label(self.canvas, text="Player", bg="red", fg="white",
+                                                  font=("Helvetica", 10)))
 
 
 maze = Maze()
