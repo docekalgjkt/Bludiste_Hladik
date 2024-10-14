@@ -43,6 +43,7 @@ class Robot:
         alg = FloodFill(self.maze)
         alg.flood()
         transformed = alg.transformed
+        print(transformed)
         current_position = self.start_position
         start_time = time.time()
 
