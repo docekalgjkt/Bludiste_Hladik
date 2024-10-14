@@ -123,10 +123,10 @@ class Window:
 
         posy = np.where(maze.maze == 3)[1][0]
         posx = np.where(maze.maze == 3)[0][0]
-        x1, y1 = (posy * self.width/len(maze.maze[0])+5,
-                  posx * self.height/len(maze.maze)+5)
-        x2, y2 = (x1 + self.width/len(maze.maze[0]),
-                  y1 + self.height/len(maze.maze))
+        x1, y1 = (posy * self.width/len(maze.maze[0])+(self.width/len(maze.maze[0])/5),
+                  posx * self.height/len(maze.maze)+(self.height/len(maze.maze[0])/5))
+        x2, y2 = (x1 + (self.width/len(maze.maze[0]))-(self.width/len(maze.maze[0])/5),
+                  y1 + (self.height/len(maze.maze[0]))-(self.height/len(maze.maze[0])/5))
         self.canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="lightgreen")
         self.canvas.create_window(x1+self.width/len(maze.maze[0])/2.3, y2-self.width/len(maze.maze)/2.3,
                                   window=tk.Label(self.canvas, text="Finish", bg="green", fg="white",
@@ -140,10 +140,10 @@ class Window:
         character = robot
         posx = character.posy
         posy = character.posx
-        x1, y1 = (posy * self.width / len(maze.maze[0]) + 5,
-                  posx * self.height / len(maze.maze) + 5)
-        x2, y2 = (x1 + self.width / len(maze.maze[0]),
-                  y1 + self.height / len(maze.maze))
+        x1, y1 = (posy * self.width / len(maze.maze[0]) + (self.width / len(maze.maze[0]) / 5),
+                  posx * self.height / len(maze.maze) + (self.height / len(maze.maze[0]) / 5))
+        x2, y2 = (x1 + (self.width / len(maze.maze[0])) - (self.width / len(maze.maze[0]) / 5),
+                  y1 + (self.height / len(maze.maze[0])) - (self.height / len(maze.maze[0]) / 5))
         self.character_rectangle = self.canvas.create_oval(x1, y1, x2, y2, fill="red", outline="darkred")
         self.character_label = self.canvas.create_window(x1+self.width/len(maze.maze[0])/2.3, y2-self.width/len(maze.maze)/2.3,
                                                          window=tk.Label(self.canvas, text="Character", bg="red", fg="white",
