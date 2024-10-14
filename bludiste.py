@@ -9,7 +9,7 @@ class Maze:
             [0, 1, 1, 3, 0],
             [0, 0, 0, 1, 0],
             [0, 1, 8, 1, 0],
-            [0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0],
             [1, 0, 0, 0, 1]
         ])
 
@@ -19,6 +19,7 @@ class Maze:
 
         loaded_data = np.load(filename)
         self.maze = loaded_data['maze']
+        print(self.maze[1,1])
 
 
 class Player:
