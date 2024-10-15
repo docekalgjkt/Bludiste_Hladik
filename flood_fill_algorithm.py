@@ -5,8 +5,8 @@ class FloodFill:
     def __init__(self,maze):
         # load components from maze
         self.maze = maze
-        self.start = np.where(maze == 8)[0][0],np.where(maze == 8)[1][0]
-        self.finish = np.where(maze == 3)[0][0], np.where(maze == 3)[1][0]
+        self.start = (np.where(self.maze == 8)[0],np.where(self.maze == 8)[1])
+        self.finish = (np.where(self.maze == 3)[0],np.where(self.maze == 3)[1])
         self.directions = [(1, 0), (0, -1), (-1, 0), (0, 1)]
         self.transformed = self.maze_transform()
         self.can_be_solved = True
