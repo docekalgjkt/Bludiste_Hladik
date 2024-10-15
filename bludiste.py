@@ -71,11 +71,11 @@ class Robot:
                         min_value = cell_value
                         next_position = (new_y, new_x)
 
-            if next_position is None:  # If no valid moves are available, we're stuck
+            if next_position is None:  # if no valid moves are available...
                 window.label.config(text=f"Can't solve this maze")
                 break
 
-            current_position = next_position  # Move to the next position
+            current_position = next_position  # moves to the next position
             self.posx = next_position[1]
             self.posy = next_position[0]
 
@@ -86,7 +86,7 @@ class Robot:
 
 
 
-class Window:
+class BludisteView:
     def __init__(self,root):
         self.root = root
         self.root.title("Maze")
@@ -128,9 +128,7 @@ class Window:
         x2, y2 = (x1 + (self.width/len(maze.maze[0]))-(self.width/len(maze.maze[0])/5),
                   y1 + (self.height/len(maze.maze[0]))-(self.height/len(maze.maze[0])/5))
         self.canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="lightgreen")
-        self.canvas.create_window(x1+self.width/len(maze.maze[0])/2.3, y2-self.width/len(maze.maze)/2.3,
-                                  window=tk.Label(self.canvas, text="Finish", bg="green", fg="white",
-                                                                  font=("Helvetica",int(self.width/len(maze.maze)/10))))
+
 
     def character_draw(self):
         if self.character_rectangle is not None:
@@ -145,9 +143,6 @@ class Window:
         x2, y2 = (x1 + (self.width / len(maze.maze[0])) - (self.width / len(maze.maze[0]) / 5),
                   y1 + (self.height / len(maze.maze[0])) - (self.height / len(maze.maze[0]) / 5))
         self.character_rectangle = self.canvas.create_oval(x1, y1, x2, y2, fill="red", outline="darkred")
-        self.character_label = self.canvas.create_window(x1+self.width/len(maze.maze[0])/2.3, y2-self.width/len(maze.maze)/2.3,
-                                                         window=tk.Label(self.canvas, text="Character", bg="red", fg="white",
-                                                  font=("Helvetica", int(self.width/len(maze.maze)/10))))
 
 
 maze = Maze()
@@ -155,5 +150,5 @@ robot = Robot(maze.maze)
 
 if __name__ == "__main__":
     root = tk.Tk()
-    window = Window(root)
+    window = BludisteView(root)
     root.mainloop()
