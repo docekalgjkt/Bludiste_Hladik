@@ -1,46 +1,23 @@
 import time
 import numpy as np
 import tkinter as tk
+from abc import ABC, abstractmethod
+import ast
 from flood_fill_algorithm import FloodFill
 
 
 class Maze:
     def __init__(self):
         # init of parameters
-        self.maze = None
+        self.maze = mazaDAO.load_maze("maze_10x10.txt")
         self.size = None
         self.start = None
         self.finish = None
-        self.load_maze()
         self.get_info()
         self.alg = FloodFill(self.maze)
         self.alg.flood()
         self.transformed = self.alg.transformed
         print(f"Flooded maze:\n{self.transformed}")
-
-
-    def load_maze(self):
-        # creates maze as matrix
-        self.maze = np.array([
-            [0, 1, 1, 1, 1, 1, 0, 1, 0, 1],
-            [8, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-            [0, 1, 1, 1, 1, 1, 0, 1, 1, 0],
-            [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 1, 0, 1, 1, 1, 1, 1, 0, 1],
-            [0, 0, 0, 1, 3, 0, 0, 0, 0, 0],
-            [1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-            [1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ])
-
-        # creates file and saves it as maze_file.npz
-        filename = 'maze_file.npz'
-        np.savez(filename, maze=self.maze)
-
-        # loads maze from file
-        loaded_data = np.load(filename)
-        self.maze = loaded_data['maze']
 
     def get_info(self):
         self.size = self.maze.shape
@@ -55,6 +32,46 @@ class Maze:
 
     def check_finish(self, current_position):
         return self.transformed[current_position[0], current_position[1]] == 1
+
+class MazeDAO(ABC):
+    @abstractmethod
+    def save_maze(self, maze):
+        pass
+
+    @abstractmethod
+    def load_maze(self, maze):
+        pass
+
+
+class MazeDAOXML(MazeDAO):
+    def __init__(self, database):
+        self.database = database
+
+    def save_maze(self, maze):
+        maze_list = []
+
+        for row in maze:
+            maze_sublist = []
+            for col in row:
+                maze_sublist.append(col)
+            maze_list.append(maze_sublist)
+
+        # opens file and writes each sublist on a new line
+        with open("maze_10x10.txt", "w") as file:
+            for sublist in maze_list:
+                # converts each sublist to a string and writes it onto new line
+                file.write(f"{sublist}\n")
+
+    def load_maze(self, file):
+        maze_list = []
+        # reads the file
+        with open(f"{file}", "r") as file:
+            for line in file:
+                # get rid of whitespace and evaluate the line as a list
+                maze_list.append(ast.literal_eval(line.strip()))
+
+        # convert loaded nested list to a NumPy array (maze)
+        return np.array(maze_list)
 
 
 class Robot:
@@ -112,7 +129,6 @@ class Robot:
             canvas.root.update()
 
             time.sleep(0.2)
-
 
 
 class MazeView:
@@ -188,9 +204,11 @@ class MazeApp:
 
 
 if __name__ == "__main__":
+    mazaDAO = MazeDAOXML("database")
     maze = Maze()
     robot = Robot()
     root = tk.Tk()
     canvas = MazeView(root)
     window = MazeApp(root)
+
     root.mainloop()
