@@ -6,6 +6,7 @@ from flood_fill_algorithm import FloodFill
 
 class Maze:
     def __init__(self):
+        # init of parameters
         self.maze = None
         self.size = None
         self.start = None
@@ -19,6 +20,7 @@ class Maze:
 
 
     def load_maze(self):
+        # creates maze as matrix
         self.maze = np.array([
             [0, 1, 1, 1, 1, 1, 0, 1, 0, 1],
             [8, 0, 0, 0, 0, 0, 0, 1, 0, 0],
@@ -32,10 +34,11 @@ class Maze:
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         ])
 
+        # creates file and saves it as maze_file.npz
         filename = 'maze_file.npz'
-
         np.savez(filename, maze=self.maze)
 
+        # loads maze from file
         loaded_data = np.load(filename)
         self.maze = loaded_data['maze']
 
@@ -66,6 +69,7 @@ class Robot:
         self.status = True
 
     def move(self):
+        # move function using flood fill algorithm
         window.label.config(text="...")
         transformed = maze.alg.transformed
         current_position = self.start_position
@@ -116,6 +120,7 @@ class MazeView:
         self.root = root
         self.root.title("Maze")
 
+        # creates canvas sized according to maze size
         self.width = (100/maze.size[0]*50)
         self.height = (100/maze.size[1]*50)
         self.canvas = tk.Canvas(root, width=self.width, height=self.height, bg="white", relief="solid", border=5)
@@ -127,6 +132,7 @@ class MazeView:
         self.maze_creation()
 
     def maze_creation(self):
+        # draws maze as black and white squares
         for row in range(len(maze.maze)):
             for col in range(len(maze.maze[row])):
                 color = "black" if maze.maze[row][col] == 1 else "white"
@@ -134,6 +140,7 @@ class MazeView:
                 x2, y2 = x1 + self.width/maze.size[1]+5, y1 + self.height/maze.size[0]+5
                 self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="")
 
+        # places finish on canvas
         posy = maze.finish[1]
         posx = maze.finish[0]
         x1, y1 = (posy * self.width/maze.size[1]+(self.width/maze.size[1]/5),
@@ -148,6 +155,7 @@ class MazeView:
             self.canvas.delete(self.character_rectangle)
             self.canvas.delete(self.character_label)
 
+        # places robot on canvas
         character = robot
         posx = character.posy
         posy = character.posx
@@ -165,6 +173,7 @@ class MazeApp:
 
         canvas.character_draw()
 
+        # draws GUI
         self.label = tk.Label(root, text="...", font=("Helvetica", 16))
         self.label.pack(side="top")
 
