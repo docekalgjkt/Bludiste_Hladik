@@ -5,7 +5,7 @@
 	<maze name="10x10">
 		
 		
-		<level number="3"/>
+		<level number="2"/>
 		
 		
 		<row id="0">
@@ -372,7 +372,7 @@
 	
 
 	<maze name="5x5">
-		<level number="2"/>
+		<level number="1"/>
 		<row id="0">
 			<cell number="0"/>
 			<cell number="1"/>

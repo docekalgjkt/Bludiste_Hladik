@@ -24,7 +24,7 @@ class MazeDAOXML(MazeDAO):
     def save_maze(self, input_maze):
         # checks if old file is present
             # loads xml file
-        data = f"{self.database}/{self.filename}"
+        data = f"../{self.database}/{self.filename}"
 
         try:
             ET.parse(data)
@@ -56,7 +56,7 @@ class MazeDAOXML(MazeDAO):
 
         # converts the tree to a byte string and writes it to a file
         tree = ET.ElementTree(levels)
-        tree.write(f"{self.database}/{self.filename}", encoding="utf-8", xml_declaration=True)
+        tree.write(f"../{self.database}/{self.filename}", encoding="utf-8", xml_declaration=True)
 
         # for pretty-printing
         import xml.dom.minidom
@@ -67,12 +67,12 @@ class MazeDAOXML(MazeDAO):
         pretty_xml_str = dom.toprettyxml()
 
         # writes the pretty-printed xml to a file
-        with open(f"{self.database}/{self.filename}", "w") as f:
+        with open(f"../{self.database}/{self.filename}", "w") as f:
             f.write(pretty_xml_str)
 
     def load_maze(self, level):
         # loads xml file
-        data = f"{self.database}/{self.filename}"
+        data = f"../{self.database}/{self.filename}"
         # reads the xml file
         tree = ET.parse(data)
         root = tree.getroot()
