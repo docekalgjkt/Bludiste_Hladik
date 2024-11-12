@@ -1,5 +1,3 @@
-from Maze_class import Maze
-import tkinter as tk
 from init_objects import maze
 import time
 import numpy as np

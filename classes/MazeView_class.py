@@ -1,4 +1,3 @@
-from Maze_class import Maze
 from init_objects import maze, robot
 import tkinter as tk
 

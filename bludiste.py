@@ -3,7 +3,7 @@ import numpy as np
 import tkinter as tk
 from abc import ABC, abstractmethod
 import ast
-from flood_fill_algorithm import FloodFill
+from classes.flood_fill_algorithm import FloodFill
 
 
 class Maze:
