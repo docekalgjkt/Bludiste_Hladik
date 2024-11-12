@@ -44,7 +44,7 @@ class MazeDAO(ABC):
         pass
 
 
-class MazeDAOXML(MazeDAO):
+class MazeDAOTXT(MazeDAO):
     def __init__(self, database):
         self.database = database
 
@@ -212,7 +212,7 @@ class MazeApp:
 
 
 if __name__ == "__main__":
-    mazaDAO = MazeDAOXML("database")
+    mazaDAO = MazeDAOTXT("database")
     maze = Maze()
     robot = Robot()
     root = tk.Tk()
