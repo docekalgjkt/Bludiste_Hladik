@@ -8,7 +8,7 @@ from flood_fill_algorithm import FloodFill
 
 class Maze:
     def __init__(self):
-        # init of parameters
+        # init of parameters, used for further referencing
         self.maze = mazaDAO.load_maze("maze_10x10.txt")
         self.size = None
         self.start = None
@@ -34,6 +34,7 @@ class Maze:
         return self.transformed[current_position[0], current_position[1]] == 1
 
 class MazeDAO(ABC):
+    # creation of main DAO class
     @abstractmethod
     def save_maze(self, maze):
         pass
@@ -48,21 +49,24 @@ class MazeDAOXML(MazeDAO):
         self.database = database
 
     def save_maze(self, maze):
+        # saves maze to .txt
         maze_list = []
 
+        # iterates over each element in matrix; creates a nested list
         for row in maze:
             maze_sublist = []
             for col in row:
                 maze_sublist.append(col)
             maze_list.append(maze_sublist)
 
-        # opens file and writes each sublist on a new line
+        # opens file
         with open("maze_10x10.txt", "w") as file:
             for sublist in maze_list:
                 # converts each sublist to a string and writes it onto new line
                 file.write(f"{sublist}\n")
 
     def load_maze(self, file):
+        # loads the file and creates a matrix
         maze_list = []
         # reads the file
         with open(f"{file}", "r") as file:
@@ -79,6 +83,7 @@ class Robot:
         self.maze = maze
         self.posx = maze.start[1]
         self.posy = maze.start[0]
+        # (y,x)
         self.start_position = (maze.start[0],maze.start[1])
         # rightward, forward, leftward, backward
             # normalized (x,y)
@@ -132,11 +137,12 @@ class Robot:
 
 
 class MazeView:
+    # draws maze onto a canvas in root (MazeApp)
     def __init__(self,root):
         self.root = root
         self.root.title("Maze")
 
-        # creates canvas sized according to maze size
+        # creates canvas, sized according to maze size
         self.width = (100/maze.size[0]*50)
         self.height = (100/maze.size[1]*50)
         self.canvas = tk.Canvas(root, width=self.width, height=self.height, bg="white", relief="solid", border=5)
@@ -167,11 +173,11 @@ class MazeView:
 
 
     def character_draw(self):
+        # places robot on canvas, and deletes it if its present for new draw
         if self.character_rectangle is not None:
             self.canvas.delete(self.character_rectangle)
             self.canvas.delete(self.character_label)
 
-        # places robot on canvas
         character = robot
         posx = character.posy
         posy = character.posx
@@ -183,10 +189,12 @@ class MazeView:
 
 
 class MazeApp:
+    # draws the GUI
     def __init__(self, root):
         self.root = root
         self.root.title("Maze")
 
+        # draws character for the first time
         canvas.character_draw()
 
         # draws GUI
@@ -210,5 +218,4 @@ if __name__ == "__main__":
     root = tk.Tk()
     canvas = MazeView(root)
     window = MazeApp(root)
-
     root.mainloop()
