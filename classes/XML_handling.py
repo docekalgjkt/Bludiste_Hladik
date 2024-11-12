@@ -72,7 +72,7 @@ class MazeDAOXML(MazeDAO):
 
     def load_maze(self, level):
         # loads xml file
-        data = f"../{self.database}/{self.filename}"
+        data = f"{self.database}/{self.filename}"
         # reads the xml file
         tree = ET.parse(data)
         root = tree.getroot()

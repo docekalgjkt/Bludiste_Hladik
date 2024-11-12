@@ -1,7 +1,7 @@
 from classes.XML_handling import MazeDAOXML
 mazeDAO = MazeDAOXML("saved_levels", "levels.xml")
 from classes.Maze_class import Maze
-maze = Maze(level=3)
+maze = Maze(level=2)
 from classes.Robot_flood_class import Robot
 robot = Robot()
 import tkinter as tk
