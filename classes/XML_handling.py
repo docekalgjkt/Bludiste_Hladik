@@ -27,16 +27,16 @@ class MazeDAOXML(MazeDAO):
         data = f"../{self.database}/{self.filename}"
 
         try:
-            ET.parse(data)
-        except FileNotFoundError:
-            print("data is none")
-            # creates the root element if file not present
-            levels = ET.Element('levels')
-        else:
             # reads the xml file
             tree = ET.parse(data)
             # accesses the levels element
             levels = tree.getroot()
+        except FileNotFoundError:
+            print("File not found, creating a new save file.")
+            # creates the root (levels) element if file is not present
+            levels = ET.Element('levels')
+            tree = ET.ElementTree(levels)
+            new_file = True
 
         # user input for maze customization
         maze_name = str(input("Enter maze name:\n> "))
@@ -46,7 +46,7 @@ class MazeDAOXML(MazeDAO):
         maze = ET.SubElement(levels, 'maze', name=maze_name)
 
         # creates the level element
-        level = ET.SubElement(maze, "level", number=maze_level)
+        ET.SubElement(maze, "level", number=maze_level)
 
         # iterates over rows and its cells
         for i, row in enumerate(input_maze):
@@ -55,20 +55,27 @@ class MazeDAOXML(MazeDAO):
                 ET.SubElement(row_element, 'cell', number=str(cell))
 
         # converts the tree to a byte string and writes it to a file
-        tree = ET.ElementTree(levels)
-        tree.write(f"../{self.database}/{self.filename}", encoding="utf-8", xml_declaration=True)
+        tree.write(data, encoding="utf-8", xml_declaration=True)
 
         # for pretty-printing
         import xml.dom.minidom
+        # converts xml tree (newly created maze) to string, goes through elements and adds indentations and line breaks
+        maze_str = ET.tostring(maze, encoding="unicode")
+        maze_dom = xml.dom.minidom.parseString(maze_str)
+        # excludes the XML declaration when pretty-printing (otherwise it breaks the whole thing)
+        pretty_maze_str = maze_dom.toprettyxml(indent="  ").split("\n", 1)[-1]
 
-        # converts xml tree to string, goes through elements and adds indentations and line breaks
-        xml_str = ET.tostring(levels, encoding="unicode")
-        dom = xml.dom.minidom.parseString(xml_str)
-        pretty_xml_str = dom.toprettyxml()
+        # loads the file back as a string to insert the formatted maze
+        with open(data, "r") as file:
+            file_content = file.read()
 
-        # writes the pretty-printed xml to a file
-        with open(f"../{self.database}/{self.filename}", "w") as f:
-            f.write(pretty_xml_str)
+        # finds the new maze's location (cuz its already saved) and replace it with the formatted version
+        # this ensures old mazes stay formated only once
+        file_content = file_content.replace(ET.tostring(maze, encoding="unicode"), pretty_maze_str)
+
+        # writes the updated content back to the file
+        with open(data, "w") as file:
+            file.write(file_content)
 
     def load_maze(self, level):
         # loads xml file
@@ -90,11 +97,16 @@ class MazeDAOXML(MazeDAO):
 
 if __name__ == "__main__":
     maze = np.array([
-        [0, 1, 1, 1, 1],
-        [8, 0, 0, 1, 0],
-        [1, 1, 0, 1, 3],
-        [0, 0, 0, 0, 0],
-        [0, 1, 0, 1, 1]
+        [0, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+        [8, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 1, 1, 1, 1, 1, 0, 1, 1, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+        [0, 0, 0, 1, 3, 0, 0, 0, 0, 0],
+        [1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ])
     dao = MazeDAOXML("saved_levels","levels.xml")
     dao.save_maze(maze)
