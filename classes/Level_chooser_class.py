@@ -26,9 +26,3 @@ class LevelChooser:
 
         # launches the popup
         return RadioDialog(self.root, title=self.title).result
-
-# Example usage
-if __name__ == "__main__":
-    popup = LevelChooser(title="Select Difficulty Level")
-    selected_level = popup.message_popup(["Easy", "Medium", "Hard"])
-    print(f"You selected: {selected_level}")
