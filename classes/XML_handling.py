@@ -7,6 +7,7 @@ class MazeDAO(ABC):
     @abstractmethod
     def __init__(self, database, filename):
         self.database = database
+        self.filename = filename
 
     @abstractmethod
     def save_maze(self, input_maze):
@@ -14,7 +15,11 @@ class MazeDAO(ABC):
 
     @abstractmethod
     def load_maze(self, level):
-        pass
+        return np.array([])
+
+    @abstractmethod
+    def get_all_levels(self):
+        return []
 
 class MazeDAOXML(MazeDAO):
     def __init__(self, database, filename):
@@ -22,10 +27,9 @@ class MazeDAOXML(MazeDAO):
         self.filename = filename
 
     def save_maze(self, input_maze):
-        # checks if old file is present
-            # loads xml file
+        # loads xml file
         data = f"../{self.database}/{self.filename}"
-
+        # checks if old file is present
         try:
             # reads the xml file
             tree = ET.parse(data)
@@ -37,6 +41,8 @@ class MazeDAOXML(MazeDAO):
             levels = ET.Element('levels')
             tree = ET.ElementTree(levels)
             new_file = True
+        except Exception as e:
+            print(f"Error when loading data: {e}")
 
         # user input for maze customization
         maze_name = str(input("Enter maze name:\n> "))
@@ -80,20 +86,38 @@ class MazeDAOXML(MazeDAO):
     def load_maze(self, level):
         # loads xml file
         data = f"{self.database}/{self.filename}"
-        # reads the xml file
-        tree = ET.parse(data)
-        root = tree.getroot()
+        try:
+            # reads the xml file
+            tree = ET.parse(data)
+            root = tree.getroot()
 
-        # find right maze, then row and reads number attribute of all elements named cell
-        maze = [maze for maze in root.findall('maze') if maze.find('level').get('number') == str(level)]
-        rows = []
-        for row_element in maze[0].findall('row'):
-            row = [int(cell.get('number')) for cell in row_element.findall('cell')]
-            rows.append(row)
+            # find right maze, then row and reads number attribute of all elements named cell
+            maze = [maze for maze in root.findall('maze') if maze.find('level').get('number') == str(level)]
+            rows = []
+            for row_element in maze[0].findall('row'):
+                row = [int(cell.get('number')) for cell in row_element.findall('cell')]
+                rows.append(row)
 
-        # converts the indented list to an array
-        maze = np.array(rows)
-        return maze
+            # converts the indented list to an array
+            return np.array(rows)
+        except FileNotFoundError:
+            print("File not found.")
+
+    def get_all_levels(self):
+        data = f"{self.database}/{self.filename}"
+        try:
+            # loads and parse the XML file
+            tree = ET.parse(data)
+            root = tree.getroot()
+
+            # extracts all levels
+            levels = [maze.find('level').get('number') for maze in root.findall('maze')]
+            return levels
+        except Exception as e:
+            print(f"Error while retrieving levels: {e}")
+
+        # if file is empty, returns empty
+        return []
 
 if __name__ == "__main__":
     maze = np.array([
