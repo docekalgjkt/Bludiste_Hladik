@@ -1,6 +1,7 @@
 from init_objects import robot, canvas
 import tkinter as tk
 
+
 class MazeApp:
     # draws the GUI
     def __init__(self, root):

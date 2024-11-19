@@ -3,7 +3,6 @@ import time
 import numpy as np
 
 
-
 class Robot:
     def __init__(self):
         self.maze = maze

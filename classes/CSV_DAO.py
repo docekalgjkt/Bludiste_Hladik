@@ -2,6 +2,7 @@ import csv
 import numpy as np
 from classes.AbstractDAO import MazeDAO
 
+
 class MazeDAOCSV(MazeDAO):
     def __init__(self, database, filename):
         self.database = database
@@ -12,7 +13,6 @@ class MazeDAOCSV(MazeDAO):
         filepath = f"../{self.database}/{self.filename}"
         maze_name = input("Enter maze name:\n> ")
         maze_level = input("Enter maze level:\n> ")
-
 
         with open(filepath, mode="a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)

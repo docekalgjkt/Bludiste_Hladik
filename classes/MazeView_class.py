@@ -1,6 +1,6 @@
 from init_objects import maze, robot
 import tkinter as tk
-import time
+
 
 class MazeView:
     # draws maze onto a canvas in root (MazeApp)

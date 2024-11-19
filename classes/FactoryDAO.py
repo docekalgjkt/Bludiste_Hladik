@@ -2,6 +2,7 @@ from classes.XML_DAO import MazeDAOXML
 from classes.CSV_DAO import MazeDAOCSV
 from classes.TXT_DAO import MazeDAOText
 
+
 class FactoryDAO:
     def __init__(self, database, filename):
         self.database = database

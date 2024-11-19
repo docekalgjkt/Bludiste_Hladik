@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import simpledialog
 
+
 class LevelChooser:
     def __init__(self, title="Popup"):
         # sets up the main window (hidden)

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class MazeDAO(ABC):
     # creation of main DAO class
     @abstractmethod

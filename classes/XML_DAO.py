@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 from classes.AbstractDAO import MazeDAO
 
+
 class MazeDAOXML(MazeDAO):
     def __init__(self, database, filename):
         self.database = database
