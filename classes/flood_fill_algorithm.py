@@ -21,6 +21,7 @@ class FloodFill:
         return transformed
 
     def get_values(self):
+        # used for graphical display of flood fill
         # gets a list of values from transformed maze without inf
         list = []
         for row in self.transformed:
