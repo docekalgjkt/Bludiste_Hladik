@@ -72,6 +72,7 @@ class MazeView:
         return x1, y1, x2, y2
 
     def animate_values(self, value_index):
+        # draws values on white squares from self.white_squares dictionary according to set maze_values
         # stops if all values are drawn
         if value_index >= len(self.maze_values):
             return
@@ -84,4 +85,4 @@ class MazeView:
                     x, y, text=str(int(current_value)), fill="black", font=("Helvetica", 20, "bold"))
 
         # schedules the next value group after 0.5 seconds, stops when the function return invalid argument
-        self.canvas.after(500, self.animate_values, value_index + 1)
+        self.canvas.after(300, self.animate_values, value_index + 1)

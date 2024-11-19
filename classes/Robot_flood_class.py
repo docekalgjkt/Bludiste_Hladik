@@ -27,7 +27,6 @@ class Robot:
         while True:
             # if reached the goal
             if transformed[current_position[0], current_position[1]] == 1:
-                print("Reached the destination!")
                 window.label.config(text=f"{time.time()-start_time:.1f}s")
                 break
 
@@ -36,8 +35,8 @@ class Robot:
 
             # checks neighboring cells for the next move
             for dir in self.directions:
-                new_y = current_position[0] + dir[0]
-                new_x = current_position[1] + dir[1]
+                new_y = current_position[0] + dir[1]
+                new_x = current_position[1] + dir[0]
 
                 # checks bounds
                 if maze.check_bounds(new_y, new_x):
