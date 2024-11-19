@@ -81,8 +81,7 @@ class MazeView:
             # draws all values with the same current value
             for x, y in self.white_squares[current_value]:
                 self.canvas.create_text(
-                    x, y, text=str(int(current_value)), fill="black", font=("Helvetica", 20, "bold")
-                )
+                    x, y, text=str(int(current_value)), fill="black", font=("Helvetica", 20, "bold"))
 
         # schedules the next value group after 0.5 seconds, stops when the function return invalid argument
         self.canvas.after(500, self.animate_values, value_index + 1)
