@@ -1,11 +1,10 @@
 # xml, csv
 file_type = "xml"
-if file_type == "xml":
-    from classes.XML_handling import MazeDAOXML
-    mazeDAO = MazeDAOXML("saved_levels", "levels.xml")
-elif file_type == "csv":
-    from classes.CSV_handling import MazeDAOCSV
-    mazeDAO = MazeDAOCSV("saved_levels", "levels.csv")
+database = "saved_levels"
+filename = "levels"
+from classes.FactoryDAO import FactoryDAO
+factory_dao = FactoryDAO(database, filename)
+mazeDAO = factory_dao.create_dao(file_type)
 from classes.Level_chooser_class import LevelChooser
 popup = LevelChooser("Level selector")
 from classes.Maze_class import Maze
