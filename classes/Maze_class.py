@@ -15,6 +15,7 @@ class Maze:
         self.alg.flood()
         self.transformed = self.alg.transformed
         print(f"Flooded maze:\n{self.transformed}")
+        self.alg_values = self.alg.get_values()
 
     def get_info(self):
         self.size = self.maze.shape
