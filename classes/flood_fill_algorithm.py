@@ -26,8 +26,8 @@ class FloodFill:
         for row in self.transformed:
             for cell in row:
                 list.append(cell)
-        value = [int(x) for x in list if x != np.inf]
-        return value
+        values = [int(x) for x in list if x != np.inf]
+        return values
 
     def flood(self, position=None):
         # creates queue and adds finish to it
