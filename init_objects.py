@@ -1,5 +1,5 @@
-# xml, csv
-file_type = "xml"
+# xml, csv, txt
+file_type = "txt"
 database = "saved_levels"
 filename = "levels"
 from classes.FactoryDAO import FactoryDAO
