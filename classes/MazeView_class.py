@@ -26,6 +26,8 @@ class MazeView:
         self.white_squares = {}  # dictionary to store values:coordinates
         self.maze_values = set()  # set to track unique values
 
+        self.can_run = False
+
         self.maze_creation(self.alg_values)
 
     def maze_creation(self, values):
@@ -42,7 +44,7 @@ class MazeView:
                     # if the square is white, it adds its value to set, creates a dictionary value:coordinates(multiple)
                     self.maze_values.add(value)  # tracks unique values
                     if value not in self.white_squares:
-                        # creates key with empty list as value
+                        # creates key with empty list as value (so one key can have more values)
                         self.white_squares[value] = []
                     # stores center coordinates of the square as value into a list from above
                     text_x = (x1 + x2) / 2
@@ -75,6 +77,7 @@ class MazeView:
         # draws values on white squares from self.white_squares dictionary according to set maze_values
         # stops if all values are drawn
         if value_index >= len(self.maze_values):
+            self.can_run = True
             return
 
         current_value = self.maze_values[value_index]
