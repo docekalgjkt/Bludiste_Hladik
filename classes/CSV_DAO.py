@@ -1,25 +1,7 @@
 import csv
 import numpy as np
-from abc import ABC, abstractmethod
+from classes.AbstractDAO import MazeDAO
 
-class MazeDAO(ABC):
-    # creation of main DAO class
-    @abstractmethod
-    def __init__(self, database, filename):
-        self.database = database
-        self.filename = filename
-
-    @abstractmethod
-    def save_maze(self, input_maze):
-        pass
-
-    @abstractmethod
-    def load_maze(self, level):
-        return np.array([])
-
-    @abstractmethod
-    def get_all_levels(self):
-        return []
 
 class MazeDAOCSV(MazeDAO):
     def __init__(self, database, filename):
@@ -31,7 +13,6 @@ class MazeDAOCSV(MazeDAO):
         filepath = f"../{self.database}/{self.filename}"
         maze_name = input("Enter maze name:\n> ")
         maze_level = input("Enter maze level:\n> ")
-
 
         with open(filepath, mode="a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)

@@ -1,6 +1,7 @@
 from init_objects import robot, canvas
 import tkinter as tk
 
+
 class MazeApp:
     # draws the GUI
     def __init__(self, root):
@@ -22,3 +23,13 @@ class MazeApp:
 
         self.character_rectangle = None
         self.character_label = None
+
+        self.update_button()
+
+    def update_button(self):
+        if canvas.can_run:
+            self.button.config(state=tk.NORMAL, bg="light green")
+        else:
+            self.button.config(state=tk.DISABLED)
+
+        self.root.after(100, self.update_button)

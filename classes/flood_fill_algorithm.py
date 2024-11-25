@@ -1,6 +1,7 @@
 import numpy as np
 from collections import deque
 
+
 class FloodFill:
     def __init__(self,maze):
         # load components from maze
@@ -18,6 +19,16 @@ class FloodFill:
         transformed[transformed == 8] = 0
         transformed[transformed == 3] = 0
         return transformed
+
+    def get_values(self):
+        # used for graphical display of flood fill
+        # gets a list of values from transformed maze without inf
+        list = []
+        for row in self.transformed:
+            for cell in row:
+                list.append(cell)
+        values = [int(x) for x in list if x != np.inf]
+        return values
 
     def flood(self, position=None):
         # creates queue and adds finish to it
