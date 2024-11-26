@@ -60,13 +60,6 @@ class MazeView:
         self.maze_values = sorted(self.maze_values)  # sorts values set in ascending order
         self.animate_values(0)  # starts animation
 
-    def character_draw(self):
-        # places robot on canvas, and deletes it if its present for new draw
-        if self.character_rectangle is not None:
-            self.canvas.delete(self.character_rectangle)
-        x1, y1, x2, y2 = self.get_xy(robot.posy, robot.posx)
-        self.character_rectangle = self.canvas.create_oval(x1, y1, x2, y2, fill="red", outline="darkred")
-
     def get_xy(self, posx, posy):
         # helper function for x and y
         x1, y1 = posy * self.cell_size + self.cell_size * 0.2 + 7, posx * self.cell_size + self.cell_size * 0.2 + 7

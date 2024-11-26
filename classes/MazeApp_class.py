@@ -1,4 +1,4 @@
-from init_objects import robot, canvas
+from init_objects import robot, canvas, robot_view
 import tkinter as tk
 
 
@@ -7,9 +7,10 @@ class MazeApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Maze")
+        self.level = None
 
         # draws character for the first time
-        canvas.character_draw()
+        robot_view.character_draw()
 
         # draws GUI
         self.label = tk.Label(root, text="...", font=("Helvetica", 16))

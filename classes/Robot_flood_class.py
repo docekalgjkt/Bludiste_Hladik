@@ -57,8 +57,8 @@ class Robot:
                 self.posx = next_position[1]
                 self.posy = next_position[0]
 
-                from init_objects import canvas
-                canvas.character_draw()
-                canvas.root.update()
+                from init_objects import robot_view
+                robot_view.character_draw()
+                robot_view.canvas.update()
 
                 time.sleep(0.2)
