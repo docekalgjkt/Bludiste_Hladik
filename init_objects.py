@@ -1,22 +1,41 @@
-# xml, csv, txt
-file_type = "csv"
-database = "saved_levels"
-filename = "levels"
-from classes.FactoryDAO import FactoryDAO
-factory_dao = FactoryDAO(database, filename)
-mazeDAO = factory_dao.create_dao(file_type)
-from classes.Level_chooser_class import LevelChooser
-popup = LevelChooser("Level selector")
-from classes.Maze_class import Maze
-maze = Maze(level=popup.message_popup(mazeDAO.get_all_levels()))
-from classes.Robot_flood_class import Robot
-robot = Robot()
-import tkinter as tk
-root = tk.Tk()
-from classes.MazeView_class import MazeView
-canvas = MazeView(root)
-from classes.RobotView_class import RobotView
-robot_view = RobotView(canvas.canvas)
-from classes.MazeApp_class import MazeApp
-window = MazeApp(root)
-level = window.level
+class Init_objects:
+    def __init__(self):
+        # xml, csv, txt
+        self.file_type = "csv"
+        self.database = "saved_levels"
+        self.filename = "levels"
+        from classes.FactoryDAO import FactoryDAO
+        self.factory_dao = FactoryDAO(self.database, self.filename)
+        self.mazeDAO = self.factory_dao.create_dao(self.file_type)
+        # from classes.Level_chooser_class import LevelChooser
+        # popup = LevelChooser("Level selector")
+        import tkinter as tk
+        self.root = tk.Tk()
+        from classes.MazeApp_class import MazeApp
+        self.window = MazeApp(self.root, levels=self.mazeDAO.get_all_levels())
+
+        self.maze = None
+        self.robot = None
+        self.canvas = None
+        self.robot_view = None
+
+        self.check_level_and_run()
+
+    def check_level_and_run(self):
+        """
+        Checks if a level has been selected. If so, proceeds to initialize the rest of the program.
+        """
+        if self.window.level is not None:  # Assumes get_confirmed_selection returns the selected level
+            print("check_level_and_run")
+            from classes.Maze_class import Maze
+            self.maze = Maze(level=self.window.level)
+            from classes.Robot_flood_class import Robot
+            self.robot = Robot()
+            from classes.MazeView_class import MazeView
+            self.canvas = MazeView(self.root)
+            from classes.RobotView_class import RobotView
+            self.robot_view = RobotView(self.canvas.canvas)
+        else:
+            # Keep checking until a level is selected
+            print("check")
+            self.root.after(1000, self.check_level_and_run)
