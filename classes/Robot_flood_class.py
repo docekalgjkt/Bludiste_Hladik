@@ -1,4 +1,3 @@
-from classes.MazeView_class import robot_view
 from classes.helper_file import init
 maze = init.maze
 import time
@@ -30,7 +29,7 @@ class Robot:
             while True:
                 # if reached the goal
                 if transformed[current_position[0], current_position[1]] == 1:
-                    window.label.config(text=f"{time.time()-start_time:.1f}s")
+                    window.label.config(text=f"Finished in: {time.time()-start_time:.1f}s")
                     break
 
                 next_position = None
