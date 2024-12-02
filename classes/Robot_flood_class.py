@@ -1,4 +1,6 @@
-from init_objects import maze
+from classes.MazeView_class import robot_view
+from classes.helper_file import init
+maze = init.maze
 import time
 import numpy as np
 
@@ -16,9 +18,9 @@ class Robot:
         self.status = True
 
     def move(self):
-        from init_objects import canvas
+        canvas = init.canvas
         if canvas.can_run:
-            from init_objects import window
+            window = init.window
             # move function using flood fill algorithm
             window.label.config(text="...")
             transformed = maze.alg.transformed
@@ -57,7 +59,7 @@ class Robot:
                 self.posx = next_position[1]
                 self.posy = next_position[0]
 
-                from init_objects import robot_view
+                robot_view = init.robot_view
                 robot_view.character_draw()
                 robot_view.canvas.update()
 

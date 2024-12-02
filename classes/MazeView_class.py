@@ -1,4 +1,6 @@
-from init_objects import maze, robot
+from classes.helper_file import init
+maze = init.maze
+robot_view = init.robot_view
 import tkinter as tk
 
 

@@ -26,7 +26,6 @@ class Init_objects:
         Checks if a level has been selected. If so, proceeds to initialize the rest of the program.
         """
         if self.window.level is not None:  # Assumes get_confirmed_selection returns the selected level
-            print("check_level_and_run")
             from classes.Maze_class import Maze
             self.maze = Maze(level=self.window.level)
             from classes.Robot_flood_class import Robot
@@ -35,7 +34,7 @@ class Init_objects:
             self.canvas = MazeView(self.root)
             from classes.RobotView_class import RobotView
             self.robot_view = RobotView(self.canvas.canvas)
+            self.robot_view.character_draw()
         else:
             # Keep checking until a level is selected
-            print("check")
-            self.root.after(1000, self.check_level_and_run)
+            self.root.after(100, self.check_level_and_run)

@@ -1,5 +1,6 @@
 from classes.flood_fill_algorithm import FloodFill
-from init_objects import mazeDAO
+from classes.helper_file import init
+mazeDAO = init.mazeDAO
 import numpy as np
 
 

@@ -1,15 +1,13 @@
 import tkinter as tk
 
 
+
 class MazeApp:
     # draws the GUI
     def __init__(self, root, levels):
         self.root = root
         self.root.title("Maze")
         self.level = None
-
-        # draws character for the first time
-        # robot_view.character_draw()
 
         # draws GUI
         self.label = tk.Label(root, text="...", font=("Helvetica", 16))
@@ -31,7 +29,7 @@ class MazeApp:
         for index, level in enumerate(levels, start=1):
             rb = tk.Radiobutton(
                 self.frame,
-                text=f"{level} ({index})",
+                text=f"{level}",
                 variable=self.level_var,
                 value=index
             )
@@ -48,24 +46,26 @@ class MazeApp:
 
     def update_button(self):
         try:
-            from init_objects import canvas
+            from classes.helper_file import init
         except ImportError:
             pass
         else:
-            if canvas.can_run:
-                self.button_start.config(state=tk.NORMAL, bg="light green")
+            try:
+                can_run = init.canvas.can_run
+            except AttributeError:
+                pass
             else:
-                self.button_start.config(state=tk.DISABLED)
+                if can_run:
+                    self.button_start.config(state=tk.NORMAL, bg="light green")
+                    self.button_start.config(command=init.robot.move)
+                else:
+                    self.button_start.config(state=tk.DISABLED)
+                    for index, button in enumerate(self.level_buttons):
+                        self.level_buttons[index].config(state=tk.DISABLED)
+                    self.confirm_button.config(state=tk.DISABLED)
 
-            self.root.after(100, self.update_button)
+        self.root.after(100, self.update_button)
 
     def confirm_selection(self):
         self.level = self.level_var.get()
         print(f"Confirmed Level: {self.level_var.get()}")
-        try:
-            from init_objects import robot
-        except ImportError:
-            pass
-        else:
-            self.button_start.config(command=robot.move)
-
