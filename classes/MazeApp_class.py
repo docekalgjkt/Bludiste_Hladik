@@ -19,7 +19,7 @@ class MazeApp:
         self.button_start = tk.Button(self.frame, text="Start", width=10, height=4)
         self.button_start.pack()
 
-        # Level chooser
+        # level chooser
         self.level_label = tk.Label(self.frame, text="Select Level:")
         self.level_label.pack(anchor="w")
 

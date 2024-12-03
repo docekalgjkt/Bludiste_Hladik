@@ -25,7 +25,7 @@ class Init_objects:
         """
         Checks if a level has been selected. If so, proceeds to initialize the rest of the program.
         """
-        if self.window.level is not None:  # Assumes get_confirmed_selection returns the selected level
+        if self.window.level is not None:
             from classes.Maze_class import Maze
             self.maze = Maze(level=self.window.level)
             from classes.Robot_flood_class import Robot
