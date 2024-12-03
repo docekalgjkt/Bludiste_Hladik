@@ -1,7 +1,7 @@
 class Init_objects:
     def __init__(self):
         # xml, csv, txt
-        self.file_type = "csv"
+        self.file_type = "xml"
         self.database = "saved_levels"
         self.filename = "levels"
         from classes.FactoryDAO import FactoryDAO

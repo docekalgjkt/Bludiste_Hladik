@@ -22,7 +22,6 @@ class MazeDAOXML(MazeDAO):
             # creates the root (levels) element if file is not present
             levels = ET.Element('levels')
             tree = ET.ElementTree(levels)
-            new_file = True
         except Exception as e:
             print(f"Error when loading data: {e}")
 
