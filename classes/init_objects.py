@@ -34,7 +34,6 @@ class Init_objects:
             self.canvas = MazeView(self.root)
             from classes.RobotView_class import RobotView
             self.robot_view = RobotView(self.canvas.canvas)
-            self.robot_view.character_draw()
         else:
             # Keep checking until a level is selected
             self.root.after(100, self.check_level_and_run)
