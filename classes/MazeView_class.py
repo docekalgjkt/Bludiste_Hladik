@@ -81,19 +81,38 @@ class MazeView:
         # stops if all values are drawn
         if value_index >= len(self.maze_values):
             self.can_run = True
-            return
+            return  # ends the animation loop
 
-        current_value = self.maze_values[value_index]
-        if current_value in self.white_squares:
-            # draws all values with the same current value
-            for x, y in self.white_squares[current_value]:
-                color = self.value_to_color(current_value)
-                self.canvas.create_text(
-                    x, y, text=str(int(current_value)), fill=color, font=("Helvetica", 20, "bold"))
+        if init.draw_flood == "none":
+            self.can_run = True
+        else:
+            current_value = self.maze_values[value_index]
+            if current_value in self.white_squares:
+                # draws all values with the same current value
+                for x, y in self.white_squares[current_value]:
+                    color = self.value_to_color(current_value)
+                    text_color = None
 
-            if current_value == self.max_value:
-                robot_view = init.robot_view
-                robot_view.character_draw()
+                    if init.draw_flood == "sq":
+                        # calculates square coordinates
+                        col = int((x - 7) // self.cell_size)  # reverse x calculation to column
+                        row = int((y - 7) // self.cell_size)  # reverse y calculation to row
+                        x1, y1 = col * self.cell_size + 7, row * self.cell_size + 7
+                        x2, y2 = x1 + self.cell_size, y1 + self.cell_size
 
-        # schedules the next value group after 0.5 seconds, stops when the function return invalid argument
-        self.canvas.after(300, self.animate_values, value_index + 1)
+                        # draws colored square first
+                        self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="")
+                        text_color = "black"
+                    elif init.draw_flood == "num":
+                        text_color = color
+
+                    # draws black text over the colored square if applicable
+                    self.canvas.create_text(
+                        x, y, text=str(int(current_value)), fill=text_color, font=("Helvetica", 20, "bold"))
+
+                    if init.draw_flood == "none" or "num" and current_value == self.max_value:
+                        robot_view = init.robot_view
+                        robot_view.character_draw()
+
+            # schedules the next value group after 0.5 seconds, stops when the function return invalid argument
+            self.canvas.after(300, self.animate_values, value_index + 1)
