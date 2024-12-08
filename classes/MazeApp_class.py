@@ -20,7 +20,7 @@ class MazeApp:
         self.button_start.pack()
         self.button_start.config(state=tk.DISABLED)
 
-        # Level chooser
+        # level chooser
         self.level_label = tk.Label(self.frame, text="Select Level:")
         self.level_label.pack(anchor="w")
 

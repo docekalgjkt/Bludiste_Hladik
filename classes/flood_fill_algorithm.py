@@ -37,7 +37,7 @@ class FloodFill:
         self.transformed[self.finish[0], self.finish[1]] = 1
 
         while queue:
-            # gets the first to be explored position and removes it
+            # gets the first to be explored position and removes it from queue
             current = queue.popleft()
             current_value = self.transformed[current[0], current[1]]
 
