@@ -18,6 +18,7 @@ class MazeApp:
 
         self.button_start = tk.Button(self.frame, text="Start", width=10, height=4)
         self.button_start.pack()
+        self.button_start.config(state=tk.DISABLED)
 
         # Level chooser
         self.level_label = tk.Label(self.frame, text="Select Level:")
@@ -59,7 +60,6 @@ class MazeApp:
                     self.button_start.config(state=tk.NORMAL, bg="light green")
                     self.button_start.config(command=init.robot.move)
                 else:
-                    self.button_start.config(state=tk.DISABLED)
                     for index, button in enumerate(self.level_buttons):
                         self.level_buttons[index].config(state=tk.DISABLED)
                     self.confirm_button.config(state=tk.DISABLED)
