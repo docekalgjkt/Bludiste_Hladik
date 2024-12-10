@@ -50,9 +50,9 @@ class Maze_generator:
                 print(f"Available cells: {available_cells}")
                 print(f"Unavailable cells: {unavailable_cells}")
                 # Replace cell if conditions are met
-                if available_cells >= 3 and 2 >= unavailable_cells:
-                    print(self.file[y,x])
+                if available_cells >= 2 and 1 >= unavailable_cells:
                     self.file[y, x] = 1
+                    print("cell was replaced with wall")
                 print("\n")
 
         np.save("temp_maze.npy", self.file)
