@@ -1,6 +1,5 @@
 from classes.helper_file import init
 maze = init.maze
-robot_view = init.robot_view
 import tkinter as tk
 
 
@@ -27,6 +26,7 @@ class MazeView:
         self.alg_values = self.maze.alg_values
         self.white_squares = {}  # dictionary to store values:coordinates
         self.maze_values = set()  # set to track unique values
+        self.max_value = None
 
         self.can_run = False
 
@@ -60,6 +60,7 @@ class MazeView:
 
         # starts the flood-fill animation
         self.maze_values = sorted(self.maze_values)  # sorts values set in ascending order
+        self.max_value = max(self.maze_values)  # finds maximum value for normalization
         self.animate_values(0)  # starts animation
 
     def get_xy(self, posx, posy):
@@ -68,19 +69,50 @@ class MazeView:
         x2, y2 = x1 + self.cell_size * 0.6, y1 + self.cell_size * 0.6
         return x1, y1, x2, y2
 
+    def value_to_color(self, value):
+        # maps a value to a color in the gradient
+        normalized_value = value / self.max_value
+        red = int(255 * normalized_value)
+        green = int(255 * (1 - normalized_value))
+        return f'#{red:02x}{green:02x}00'
+
     def animate_values(self, value_index):
         # draws values on white squares from self.white_squares dictionary according to set maze_values
         # stops if all values are drawn
         if value_index >= len(self.maze_values):
             self.can_run = True
-            return
+            return  # ends the animation loop
 
-        current_value = self.maze_values[value_index]
-        if current_value in self.white_squares:
-            # draws all values with the same current value
-            for x, y in self.white_squares[current_value]:
-                self.canvas.create_text(
-                    x, y, text=str(int(current_value)), fill="black", font=("Helvetica", 20, "bold"))
+        if init.draw_flood == "none":
+            self.can_run = True
+        else:
+            current_value = self.maze_values[value_index]
+            if current_value in self.white_squares:
+                # draws all values with the same current value
+                for x, y in self.white_squares[current_value]:
+                    color = self.value_to_color(current_value)
+                    text_color = None
 
-        # schedules the next value group after 0.5 seconds, stops when the function return invalid argument
-        self.canvas.after(300, self.animate_values, value_index + 1)
+                    if init.draw_flood == "sq":
+                        # calculates square coordinates
+                        col = int((x - 7) // self.cell_size)  # reverse x calculation to column
+                        row = int((y - 7) // self.cell_size)  # reverse y calculation to row
+                        x1, y1 = col * self.cell_size + 7, row * self.cell_size + 7
+                        x2, y2 = x1 + self.cell_size, y1 + self.cell_size
+
+                        # draws colored square first
+                        self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="")
+                        text_color = "black"
+                    elif init.draw_flood == "num":
+                        text_color = color
+
+                    # draws black text over the colored square if applicable
+                    self.canvas.create_text(
+                        x, y, text=str(int(current_value)), fill=text_color, font=("Helvetica", 20, "bold"))
+
+                    if init.draw_flood == "none" or "num" and current_value == self.max_value:
+                        robot_view = init.robot_view
+                        robot_view.character_draw()
+
+            # schedules the next value group after 0.5 seconds, stops when the function return invalid argument
+            self.canvas.after(300, self.animate_values, value_index + 1)
