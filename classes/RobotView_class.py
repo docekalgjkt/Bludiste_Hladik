@@ -6,7 +6,6 @@ class RobotView:
     def __init__(self, canvas):
         self.canvas = canvas
         self.character_rectangle = None
-        print("robot view initialized")
 
     def character_draw(self):
         # places robot on canvas, and deletes it if its present for new draw

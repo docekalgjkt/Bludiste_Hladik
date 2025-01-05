@@ -3,7 +3,7 @@ class Init_objects:
         # xml, csv, txt
         self.file_type = "csv"
         # num = numbers, sq = colored squares, none = no display
-        self.draw_flood = "none"
+        self.draw_flood = "sq"
         self.database = "saved_levels"
         self.filename = "levels"
         from classes.FactoryDAO import FactoryDAO
